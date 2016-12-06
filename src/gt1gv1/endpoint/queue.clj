@@ -4,10 +4,13 @@
             [hiccup.page :refer [html5]]))
 
 (defn- index [req db]
-  (html5
-   [:body
-    [:h1 "hello, duct from scratch!"]]))
+  (let [{:keys [user-id queue-id]} (:params req)]
+    (html5
+     [:body
+      [:h1 "hello, duct from scratch!"]
+      [:p (str "user-id: " user-id)]
+      [:p (str "queue-id: " queue-id)]])))
 
 (defn queue-endpoint [{{db :spec} :db}]
   (routes
-   (GET "/" {:as req} (index req db))))
+   (GET "/users/:user-id/queues/:queue-id" {:as req} (index req db))))

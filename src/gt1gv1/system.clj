@@ -8,6 +8,8 @@
             [meta-merge.core :refer [meta-merge]]
             [ring.component.jetty :refer [jetty-server]]
             [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
+            [gt1gv1.endpoint.top :refer [top-endpoint]]
+            [gt1gv1.endpoint.sign :refer [sign-endpoint]]
             [gt1gv1.endpoint.queue :refer [queue-endpoint]]))
 
 (def base-config
@@ -24,9 +26,13 @@
          :http (jetty-server (:http config))
          :db (hikaricp (:db config))
          :ragtime (ragtime {:resource-path "migrations"})
+         :top (endpoint-component top-endpoint)
+         :sign (endpoint-component sign-endpoint)
          :queue (endpoint-component queue-endpoint))
         (component/system-using
          {:ragtime [:db]
           :http [:app]
-          :app [:queue]
+          :app [:top :sign :queue]
+          :top [:db]
+          :sign [:db]
           :queue [:db]}))))
