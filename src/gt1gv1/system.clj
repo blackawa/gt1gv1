@@ -2,6 +2,8 @@
   (:require [com.stuartsierra.component :as component]
             [duct.component.endpoint :refer [endpoint-component]]
             [duct.component.handler :refer [handler-component]]
+            [duct.component.hikaricp :refer [hikaricp]]
+            [duct.component.ragtime :refer [ragtime]]
             [duct.middleware.not-found :refer [wrap-not-found]]
             [meta-merge.core :refer [meta-merge]]
             [ring.component.jetty :refer [jetty-server]]
@@ -20,7 +22,11 @@
     (-> (component/system-map
          :app (handler-component (:app config))
          :http (jetty-server (:http config))
+         :db (hikaricp (:db config))
+         :ragtime (ragtime {:resource-path "migrations"})
          :queue (endpoint-component queue-endpoint))
         (component/system-using
-         {:http [:app]
-          :app [:queue]}))))
+         {:ragtime [:db]
+          :http [:app]
+          :app [:queue]
+          :queue [:db]}))))

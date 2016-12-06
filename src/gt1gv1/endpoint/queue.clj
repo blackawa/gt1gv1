@@ -3,11 +3,11 @@
             [compojure.route :as route]
             [hiccup.page :refer [html5]]))
 
-(defn- index [req]
+(defn- index [req db]
   (html5
    [:body
     [:h1 "hello, duct from scratch!"]]))
 
-(defn queue-endpoint [config]
+(defn queue-endpoint [{{db :spec} :db}]
   (routes
-   (GET "/" {:as req} (index req))))
+   (GET "/" {:as req} (index req db))))
