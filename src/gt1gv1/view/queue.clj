@@ -4,10 +4,18 @@
             [ring.util.anti-forgery :refer [anti-forgery-field]]))
 
 (defn index [queue]
+  (println queue)
   (layout
    [:body
     [:h1 (:name queue)]
     [:p "queue items below..."]
+    (form-to
+     [:post (format "/users/%s/queues/%s/items" (:users_id queue) (:id queue))]
+     [:input {:type "text"
+              :placeholder "item"
+              :name "content"}]
+     (anti-forgery-field)
+     [:button {:type "submit"} "アイテム追加"])
     [:p
      [:a {:href (format "/users/%s" (:users_id queue))} "back to user page"]]]))
 
