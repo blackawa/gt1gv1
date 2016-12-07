@@ -3,21 +3,40 @@
             [hiccup.form :refer [form-to]]
             [ring.util.anti-forgery :refer [anti-forgery-field]]))
 
-(defn sign-in-page []
-  (layout
+(defn sign-in-page
+  ([]
+   (layout
    [:body [:header
            [:h1 "Sign in"]]
     [:div
      (form-to
-      [:post "/sign/in"]
-      [:input {:type "text"
-               :placeholder "name"
-               :name "username"}]
-      [:input {:type "password"
-               :placeholer "password"
-               :name "passwd"}]
-      (anti-forgery-field)
-      [:button {:type "submit"} "Sign in"])]]))
+       [:post "/sign/in"]
+       [:input {:type "text"
+                :placeholder "username"
+                :name "name"}]
+       [:input {:type "password"
+                :placeholer "password"
+                :name "passwd"}]
+       (anti-forgery-field)
+       [:button {:type "submit"} "Sign up"])]]))
+  ([user msg]
+   (layout
+    [:body [:header
+            [:h1 "Sign in"]]
+     [:div
+      [:ul.msg
+       (map (fn [m] [:li m]) msg)]
+      (form-to
+       [:post "/sign/in"]
+       [:input {:type "text"
+                :placeholder "username"
+                :name "name"
+                :value (:name user)}]
+       [:input {:type "password"
+                :placeholer "password"
+                :name "passwd"}]
+       (anti-forgery-field)
+       [:button {:type "submit"} "Sign up"])]])))
 
 (defn sign-up-page
   ([]
