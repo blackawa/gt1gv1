@@ -36,7 +36,7 @@
 (defn- sign-out [req]
   (-> (redirect "/" :see-other)
       (html-response)
-      (dissoc :session)))
+      (assoc :session nil)))
 
 (defn sign-endpoint [{{db :spec} :db}]
   (routes
