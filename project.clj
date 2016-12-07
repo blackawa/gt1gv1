@@ -12,12 +12,7 @@
                  [ring/ring-defaults "0.2.1"]
                  [ring-jetty-component "0.3.1"]
                  [ring-webjars "0.1.1"]
-
                  [org.webjars/normalize.css "3.0.2"]
-                 [org.postgresql/postgresql "9.4.1211"]
-                 [hiccup "1.0.5"]
-                 [garden "1.2.5"]
-                 [buddy "1.2.0"]
                  ;; db access
                  [duct/hikaricp-component "0.1.0"]
                  [hanami "0.1.0"]
@@ -28,7 +23,12 @@
                  [org.slf4j/slf4j-nop "1.7.21"]
                  [org.clojure/tools.logging "0.3.1"]
                  [org.slf4j/slf4j-api "1.7.21"]
-                 [ch.qos.logback/logback-classic "1.1.7"]]
+                 [ch.qos.logback/logback-classic "1.1.7"]
+                 ;; other libraries
+                 [hiccup "1.0.5"]
+                 [garden "1.2.5"]
+                 [buddy "1.2.0"]
+                 [bouncer "1.0.0"]]
   :plugins [[lein-environ "1.0.3"]
             [lein-gen "0.2.1"]
             [lein-garden "0.3.0"]]

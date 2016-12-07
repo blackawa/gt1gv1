@@ -3,7 +3,6 @@
             [gt1gv1.repository.users :as repo]))
 
 (defn sign-up [user db]
-  (let [ret (repo/insert-users (update user :passwd #(hs/encrypt %)) db)]
-    (println "user created!")
-    (println ret)
-    ret))
+  (let [ret (repo/insert-users (select-keys (update user :passwd #(hs/encrypt %)) [:name :passwd])  db)]
+    ;; ({:id 1, :name a, :passwd bcrypt+sha59...})
+    (-> ret first :id)))
