@@ -5,20 +5,7 @@
 
 (defn sign-in-page
   ([]
-   (layout
-   [:body [:header
-           [:h1 "Sign in"]]
-    [:div
-     (form-to
-       [:post "/sign/in"]
-       [:input {:type "text"
-                :placeholder "username"
-                :name "name"}]
-       [:input {:type "password"
-                :placeholer "password"
-                :name "passwd"}]
-       (anti-forgery-field)
-       [:button {:type "submit"} "Sign up"])]]))
+   (sign-in-page {} {}))
   ([user msg]
    (layout
     [:body [:header
@@ -36,25 +23,12 @@
                 :placeholer "password"
                 :name "passwd"}]
        (anti-forgery-field)
-       [:button {:type "submit"} "Sign up"])]])))
+       [:button {:type "submit"} "Sign up"])
+      [:p [:a {:href "/sign/up"} "or sign up"]]]])))
 
 (defn sign-up-page
   ([]
-   (layout
-    [:body
-     [:header
-      [:h1 "Sign up"]]
-     [:div
-      (form-to
-       [:post "/sign/up"]
-       [:input {:type "text"
-                :placeholder "username"
-                :name "name"}]
-       [:input {:type "password"
-                :placeholer "password"
-                :name "passwd"}]
-       (anti-forgery-field)
-       [:button {:type "submit"} "Sign up"])]]))
+   (sign-up-page {} {}))
   ([user msg]
    (layout
     [:body

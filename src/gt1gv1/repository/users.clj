@@ -13,7 +13,8 @@
 (defn select-user-and-queue-by-user-id [user-id db]
   (j/query db (sql/format {:select [:users.id :users.name
                                     :queues.id :queues.name]
-                           :from [:users :queues]
+                           :from [:users]
+                           :left-join [:queues [:= :users.id :queues.users_id]]
                            :where [:and
                                    [:= :users.id user-id]
                                    [:= :users.id :queues.users_id]]})))
