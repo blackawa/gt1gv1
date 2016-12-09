@@ -4,10 +4,9 @@
             [ring.util.anti-forgery :refer [anti-forgery-field]]))
 
 (defn index [queue]
-  (println queue)
   (layout
    [:body
-    [:h1 (:name queue)]
+    [:h1 (format "Get 1 %s, Give 1 %s!" (:get_title queue) (:give_title queue))]
     [:p "queue items below..."]
     (form-to
      [:post (format "/users/%s/queues/%s/items" (:users_id queue) (:id queue))]
@@ -30,9 +29,15 @@
      (map (fn [m] [:li m]) msg)]
     (form-to
      [:post (format "/users/%s/queues" user-id)]
+     [:span "Get"]
      [:input {:type "text"
-              :placeholder "queue name"
-              :name "name"
-              :value (:name param)}]
+              :placeholder "what you get"
+              :name "get-title"
+              :value (:get-title param)}]
+     [:span "Give"]
+     [:input {:type "text"
+              :placeholder "what you give"
+              :name "give-title"
+              :value (:give-title param)}]
      (anti-forgery-field)
      [:button {:type "submit"} "登録"])])))

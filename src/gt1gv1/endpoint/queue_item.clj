@@ -9,7 +9,7 @@
             [ring.util.response :refer [redirect]]))
 
 (defn- create-queue-item [req db]
-  (if-let [user-id (session/check-user-id req)]
+  (if-let [user-id (session/check-user-id req db)]
     '()
     (forbidden-response)))
 

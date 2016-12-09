@@ -8,4 +8,5 @@
 (defn validate-queue [queue]
   (b/validate
    queue
-   :name queue-name))
+   :get-title queue-name
+   :give-title queue-name))

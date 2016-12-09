@@ -10,11 +10,17 @@
   (-> (j/query db (sql/format {:select [:*] :from [:users] :where [:= :name user-name]}))
       first))
 
-(defn select-user-and-queue-by-user-id [user-id db]
-  (j/query db (sql/format {:select [:users.id :users.name
-                                    :queues.id :queues.name]
+(defn select-user-by-id [user-id db]
+  (j/query db (sql/format {:select [:id :name]
                            :from [:users]
-                           :left-join [:queues [:= :users.id :queues.users_id]]
-                           :where [:and
-                                   [:= :users.id user-id]
-                                   [:= :users.id :queues.users_id]]})))
+                           :where [:= :id user-id]})))
+
+(defn select-queues-by-users-id [user-id db]
+  (j/query db (sql/format {:select [:get_title :give_title]
+                           :from [:queues]
+                           :where [:= :users_id user-id]})))
+
+(defn select-user-and-queue-by-user-id [user-id db]
+  (let [user (first (select-user-by-id user-id db))
+        queues (select-queues-by-users-id user-id db)]
+    (assoc user :queues queues)))

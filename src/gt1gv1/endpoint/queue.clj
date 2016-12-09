@@ -9,13 +9,13 @@
             [ring.util.response :refer [redirect]]))
 
 (defn- new-queue-page [req db]
-  (if-let [user-id (session/check-user-id req)]
+  (if-let [user-id (session/check-user-id req db)]
     (view/new-queue-page user-id)
     (forbidden-response)))
 
 (defn- create-queue [req db]
-  (if-let [user-id (session/check-user-id req)]
-    (let [queue (-> req :params (select-keys [:name]))
+  (if-let [user-id (session/check-user-id req db)]
+    (let [queue (-> req :params (select-keys [:get-title :give-title]))
           msg (first (validator/validate-queue queue))]
       (if (nil? msg)
         (let [queue-id (service/create-queue queue user-id db)]
@@ -24,7 +24,7 @@
     (forbidden-response)))
 
 (defn- index [req db]
-  (if-let [user-id (session/check-user-id req)]
+  (if-let [user-id (session/check-user-id req db)]
     (let [queue-id (-> req :params :queue-id)
           queue (first (service/find-queue-by-id user-id queue-id db))]
       (view/index queue))

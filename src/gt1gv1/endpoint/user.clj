@@ -9,7 +9,7 @@
             [ring.util.response :refer [response header status]]))
 
 (defn- index [req db]
-  (if-let [user-id (session/check-user-id req)]
+  (if-let [user-id (session/check-user-id req db)]
     (view/index (service/find-for-index user-id db))
     (forbidden-response)))
 
