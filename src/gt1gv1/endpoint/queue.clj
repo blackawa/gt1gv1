@@ -27,7 +27,6 @@
   (if-let [user-id (session/check-user-id req db)]
     (let [queue-id (-> req :params :queue-id)
           queue (service/find-queue-by-id user-id queue-id db)]
-      (println (:queue-items queue))
       (view/index queue))
     (forbidden-response)))
 

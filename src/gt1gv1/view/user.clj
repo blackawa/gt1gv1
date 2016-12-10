@@ -2,7 +2,6 @@
   (:require [gt1gv1.view.layout :refer [layout]]))
 
 (defn index [user]
-  (println user)
   (let [{user-id :id user-name :name queues :queues} user]
     (layout
      [:body
