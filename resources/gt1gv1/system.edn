@@ -7,15 +7,17 @@
  {:top #var gt1gv1.endpoint.top/top-endpoint
   :sign #var gt1gv1.endpoint.sign/sign-endpoint
   :user #var gt1gv1.endpoint.user/user-endpoint
-  :queue #var gt1gv1.endpoint.queue/queue-endpoint}
+  :queue #var gt1gv1.endpoint.queue/queue-endpoint
+  :queue-item #var gt1gv1.endpoint.queue-item/queue-item-endpoint}
  :dependencies
  {:http [:app]
-  :app  [:top :sign :user :queue]
+  :app  [:top :sign :user :queue :queue-item]
   :ragtime [:db]
   :top [:db]
   :sign [:db]
   :user [:db]
-  :queue [:db]}
+  :queue [:db]
+  :queue-item [:db]}
  :config
  {:app
   {:middleware

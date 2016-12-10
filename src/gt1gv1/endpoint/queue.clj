@@ -23,10 +23,11 @@
         (bad-request-response (view/new-queue-page user-id queue msg))))
     (forbidden-response)))
 
-(defn- index [req db]
+(defn index [req db]
   (if-let [user-id (session/check-user-id req db)]
     (let [queue-id (-> req :params :queue-id)
-          queue (first (service/find-queue-by-id user-id queue-id db))]
+          queue (service/find-queue-by-id user-id queue-id db)]
+      (println (:queue-items queue))
       (view/index queue))
     (forbidden-response)))
 

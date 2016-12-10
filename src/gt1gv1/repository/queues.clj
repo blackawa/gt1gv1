@@ -12,3 +12,8 @@
                            :where [:and
                                    [:= :id queue-id]
                                    [:= :users_id user-id]]})))
+
+(defn find-queues-by-users-id [user-id db]
+  (j/query db (sql/format {:select [:*]
+                           :from [:queues]
+                           :where [:= :users_id user-id]})))

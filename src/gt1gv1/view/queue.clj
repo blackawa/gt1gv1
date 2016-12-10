@@ -4,19 +4,31 @@
             [ring.util.anti-forgery :refer [anti-forgery-field]]))
 
 (defn index [queue]
-  (layout
-   [:body
-    [:h1 (format "Get 1 %s, Give 1 %s!" (:get_title queue) (:give_title queue))]
-    [:p "queue items below..."]
-    (form-to
-     [:post (format "/users/%s/queues/%s/items" (:users_id queue) (:id queue))]
-     [:input {:type "text"
-              :placeholder "item"
-              :name "content"}]
-     (anti-forgery-field)
-     [:button {:type "submit"} "アイテム追加"])
-    [:p
-     [:a {:href (format "/users/%s" (:users_id queue))} "back to user page"]]]))
+  (let [user-id (:users_id queue)
+        queue-id (:id queue)
+        get-title (:get_title queue)
+        give-title (:give_title queue)]
+    (layout
+     [:body
+      [:h1 (format "Get 1 %s, Give 1 %s!" get-title give-title)]
+      (form-to
+       [:post (format "/users/%s/queues/%s/items" user-id queue-id)]
+       [:input {:type "text"
+                :placeholder "item"
+                :name "content"}]
+       (anti-forgery-field)
+       [:button {:type "submit"} "アイテム追加"])
+      [:p [:a {:href (format "/users/%s" user-id)} "back to user page"]]
+      [:ul
+       (map
+        (fn [qi]
+          [:li
+           [:span (str (:content qi))]
+           (form-to
+            [:delete (format "/users/%s/queues/%s/items/%s" user-id queue-id (:id qi))]
+            (anti-forgery-field)
+            [:button {:type "submit"} "取り出す"])])
+        (:queue-items queue))]])))
 
 (defn new-queue-page
   ([user-id]

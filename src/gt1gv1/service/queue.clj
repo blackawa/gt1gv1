@@ -1,5 +1,6 @@
 (ns gt1gv1.service.queue
-  (:require [gt1gv1.repository.queues :as r]))
+  (:require [gt1gv1.repository.queues :as queue]
+            [gt1gv1.repository.queue-items :as queue-item]))
 
 (defn create-queue [queue user-id db]
   (-> queue
@@ -10,9 +11,12 @@
       ;; add foreign key
       (assoc :users_id user-id)
       (assoc :queues_status_id 1)
-      (r/insert-queues db)
+      (queue/insert-queues db)
       first
       :id))
 
 (defn find-queue-by-id [user-id queue-id db]
-  (r/find-queue-by-id user-id (read-string queue-id) db))
+  (let [queue-id (read-string queue-id)
+        queue (first (queue/find-queue-by-id user-id queue-id db))
+        queue-items (queue-item/find-by-queue-id queue-id db)]
+    (assoc queue :queue-items queue-items)))
