@@ -24,6 +24,7 @@
 (defn- delete-queue-item [req db]
   (if-let [user-id (session/check-user-id req db)]
     (let [{:keys [queue-id queue-item-id]} (-> req :params)]
+      (service/delete-queue-item queue-item-id db)
       (redirect (format "/users/%s/queues/%s" user-id queue-id)))
     (forbidden-response)))
 
