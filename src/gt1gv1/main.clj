@@ -15,4 +15,5 @@
         system   (->> (load-system [(io/resource "gt1gv1/system.edn")] bindings)
                       (component/start))]
     (add-shutdown-hook ::stop-system #(component/stop system))
-    (log/infof "Started HTTP server on port %s" (-> system :http :port))))
+    (log/infof "Started HTTP server on port %s" (-> system :http :port))
+    (start-report)))

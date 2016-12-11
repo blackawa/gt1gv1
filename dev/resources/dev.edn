@@ -2,7 +2,7 @@
  {:app
   {:middleware
    {:functions {:stacktrace #var ring.middleware.stacktrace/wrap-stacktrace}
-    :applied   ^:replace [:not-found :webjars :ring-defaults :stacktrace]}}
+    :applied   ^:replace [:not-found :webjars :ring-defaults :stacktrace :metrics :metrics-ins]}}
   :http
   {:port 3000}
   :db

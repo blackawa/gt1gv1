@@ -2,7 +2,8 @@
  {:app  #var duct.component.handler/handler-component
   :http #var ring.component.jetty/jetty-server
   :db   #var duct.component.hikaricp/hikaricp
-  :ragtime #var duct.component.ragtime/ragtime}
+  :ragtime #var duct.component.ragtime/ragtime
+  :graphite #var gt1gv1.component.graphite/graphite}
  :endpoints
  {:top #var gt1gv1.endpoint.top/top-endpoint
   :sign #var gt1gv1.endpoint.sign/sign-endpoint
@@ -25,9 +26,11 @@
     {:hide-errors   #var duct.middleware.errors/wrap-hide-errors
      :not-found     #var duct.middleware.not-found/wrap-not-found
      :ring-defaults #var ring.middleware.defaults/wrap-defaults
-     :webjars       #var ring.middleware.webjars/wrap-webjars}
+     :webjars       #var ring.middleware.webjars/wrap-webjars
+     :metrics       #var metrics.ring.expose/expose-metrics-as-json
+     :metrics-ins   #var metrics.ring.instrument/instrument}
     :applied
-    [:not-found :webjars :ring-defaults :hide-errors]
+    [:not-found :webjars :ring-defaults :hide-errors :metrics :metrics-ins]
     :arguments
     {:not-found     #resource "gt1gv1/errors/404.html"
      :hide-errors   #resource "gt1gv1/errors/500.html"
